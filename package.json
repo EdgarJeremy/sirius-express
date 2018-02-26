@@ -1,0 +1,26 @@
+{
+  "name": "sirius-express",
+  "version": "1.0.0",
+  "description": "Sirius middleware for express.js framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EdgarJeremy/sirius-express.git"
+  },
+  "keywords": [
+    "sirius",
+    "express"
+  ],
+  "author": "edgarjeremy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EdgarJeremy/sirius-express/issues"
+  },
+  "homepage": "https://github.com/EdgarJeremy/sirius-express#readme",
+  "dependencies": {
+    "lodash": "^4.17.5"
+  }
+}
