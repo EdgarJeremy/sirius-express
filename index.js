@@ -90,6 +90,13 @@ module.exports = function (opts = {}) {
             should_go = false;
         }
 
+        res.throw = function(error) {
+            res.setStatus(res.GAGAL);
+            res.setMessage(`Terjadi kesalahan : ${error}`);
+            res.go();
+            should_go = false;
+        }
+
         res.go = function () {
             if (should_go) {
                 if (json_to_send.status === res.OK) {
