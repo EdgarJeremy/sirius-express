@@ -85,7 +85,7 @@ module.exports = function (opts = {}) {
 
         res.handleReject = function(reason) {
             res.setStatus(res.ERROR);
-            res.setMessage(reason);
+            res.setError(reason);
             res.go();
             should_go = false;
         }
