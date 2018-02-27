@@ -83,6 +83,13 @@ module.exports = function (opts = {}) {
             return fields;
         }
 
+        res.handleReject = function(reason) {
+            res.setStatus(res.ERROR);
+            res.setMessage(reason);
+            res.go();
+            should_go = false;
+        }
+
         res.go = function () {
             if (should_go) {
                 if (json_to_send.status === res.OK) {
