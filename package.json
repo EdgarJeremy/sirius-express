@@ -1,6 +1,6 @@
 {
   "name": "sirius-express",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Sirius middleware for express.js framework",
   "main": "index.js",
   "scripts": {
