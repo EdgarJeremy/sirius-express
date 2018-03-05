@@ -97,6 +97,18 @@ module.exports = function (opts = {}) {
             should_go = false;
         }
 
+        res.allow = function(include = [], sessionKey = "userdata", fieldKey = "level"){
+            if(typeof req.session == "undefined") return res.throw(`Modul session tidak ditemukan`);
+            if(typeof req.session[sessionKey] == "undefined") return res.throw(`Session key ${sessionKey} tidak ditemukan`);
+            if(include.indexOf(req.session[sessionKey][fieldKey]) == -1) return res.throw(`Level ${req.session[sessionKey][fieldKey]} tidak memiliki hak akses di endpoint ini`);
+        }
+
+        res.restrict = function(exclude = [], sessionKey = "userdata", fieldKey = "level") {
+            if(typeof req.session == "undefined") return res.throw(`Modul session tidak ditemukan`);
+            if(typeof req.session[sessionKey] == "undefined") return res.throw(`Session key ${sessionKey} tidak ditemukan`);
+            if(include.indexOf(req.session[sessionKey][fieldKey]) == -1) return res.throw(`Level ${req.session[sessionKey][fieldKey]} tidak memiliki hak akses di endpoint ini`);
+        }
+
         res.go = function () {
             if (should_go) {
                 if (json_to_send.status === res.OK) {
