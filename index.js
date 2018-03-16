@@ -48,10 +48,12 @@ module.exports = function (opts = {}) {
                 }
             }
             if (!_.isEmpty(fieldGagal)) {
+                let err = `Field GET ${fieldGagal.join(",")} harus dikirim`;
                 res.setStatus(res.GAGAL);
-                res.setMessage(`Field GET ${fieldGagal.join(",")} harus dikirim`);
+                res.setMessage(err);
                 res.go();
                 should_go = false;
+                throw new Error(err);
             }
         }
 
@@ -64,10 +66,12 @@ module.exports = function (opts = {}) {
                 }
             }
             if (!_.isEmpty(fieldGagal)) {
+                let err = `Field POST ${fieldGagal.join(",")} harus dikirim`;
                 res.setStatus(res.GAGAL);
-                res.setMessage(`Field POST ${fieldGagal.join(",")} harus dikirim`);
+                res.setMessage(err);
                 res.go();
                 should_go = false;
+                throw new Error(err);
             }
         }
 
@@ -88,6 +92,7 @@ module.exports = function (opts = {}) {
             res.setError(reason);
             res.go();
             should_go = false;
+            throw new Error(reason);
         }
 
         res.throw = function(error) {
@@ -95,6 +100,7 @@ module.exports = function (opts = {}) {
             res.setMessage(`Terjadi kesalahan : ${error}`);
             res.go();
             should_go = false;
+            throw new Error(error);
         }
 
         res.allow = function(include = [], sessionKey = "userdata", fieldKey = "level"){
