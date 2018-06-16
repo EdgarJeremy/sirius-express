@@ -92,7 +92,7 @@ module.exports = function (opts = {}) {
             return fields;
         }
 
-        res.handleReject = function(reason) {
+        res.handleReject = function (reason) {
             res.setStatus(res.ERROR);
             res.setError(reason);
             res.go();
@@ -100,7 +100,7 @@ module.exports = function (opts = {}) {
             throw new Error(reason);
         }
 
-        res.throw = function(error) {
+        res.throw = function (error) {
             res.setStatus(res.GAGAL);
             res.setMessage(`Terjadi kesalahan : ${error}`);
             res.go();
@@ -108,16 +108,16 @@ module.exports = function (opts = {}) {
             throw new Error(error);
         }
 
-        res.allow = function(include = [], sessionKey = "userdata", fieldKey = "level"){
-            if(typeof req.session == "undefined") return res.throw(`Modul session tidak ditemukan`);
-            if(typeof req.session[sessionKey] == "undefined") return res.throw(`Session key ${sessionKey} tidak ditemukan`);
-            if(include.indexOf(req.session[sessionKey][fieldKey]) == -1) return res.throw(`Level ${req.session[sessionKey][fieldKey]} tidak memiliki hak akses di endpoint ini`);
+        res.allow = function (include = [], sessionKey = "userdata", fieldKey = "level") {
+            if (typeof req.session == "undefined") return res.throw(`Modul session tidak ditemukan`);
+            if (typeof req.session[sessionKey] == "undefined") return res.throw(`Session key ${sessionKey} tidak ditemukan`);
+            if (include.indexOf(req.session[sessionKey][fieldKey]) == -1) return res.throw(`Level ${req.session[sessionKey][fieldKey]} tidak memiliki hak akses di endpoint ini`);
         }
 
-        res.restrict = function(exclude = [], sessionKey = "userdata", fieldKey = "level") {
-            if(typeof req.session == "undefined") return res.throw(`Modul session tidak ditemukan`);
-            if(typeof req.session[sessionKey] == "undefined") return res.throw(`Session key ${sessionKey} tidak ditemukan`);
-            if(include.indexOf(req.session[sessionKey][fieldKey]) == -1) return res.throw(`Level ${req.session[sessionKey][fieldKey]} tidak memiliki hak akses di endpoint ini`);
+        res.restrict = function (exclude = [], sessionKey = "userdata", fieldKey = "level") {
+            if (typeof req.session == "undefined") return res.throw(`Modul session tidak ditemukan`);
+            if (typeof req.session[sessionKey] == "undefined") return res.throw(`Session key ${sessionKey} tidak ditemukan`);
+            if (include.indexOf(req.session[sessionKey][fieldKey]) == -1) return res.throw(`Level ${req.session[sessionKey][fieldKey]} tidak memiliki hak akses di endpoint ini`);
         }
 
         res.go = function () {
@@ -143,11 +143,11 @@ module.exports = function (opts = {}) {
         /**
          * Token decoding & craftings
          */
-        req.getToken = function(payload) {
-            return jwt.sign(payload, secret);
+        req.getToken = function (payload, exp = "1h") {
+            return jwt.sign(payload, secret, { expiresIn: exp });
         }
 
-        if(token) {
+        if (token) {
             jwt.verify(token, secret, (err, decoded) => {
                 req.payload = {
                     error: err,
