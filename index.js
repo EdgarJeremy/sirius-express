@@ -20,6 +20,10 @@ module.exports = function (opts = {}) {
         var should_go = true;
         var start_time = new Date();
 
+        let token = req.headers["x-auth-token"];
+        let secret = opts.secret ? opts.secret : "sirius-express-122uihh1ut67etweugqd67atsdu";
+        req.payload = {};
+
         res.setStatus = function (status) {
             json_to_send.status = status;
             return res;
@@ -137,11 +141,11 @@ module.exports = function (opts = {}) {
         }
 
         /**
-         * Token decoding
+         * Token decoding & craftings
          */
-        let token = req.headers["x-auth-token"];
-        let secret = opts.secret ? opts.secret : "sirius-express-122uihh1ut67etweugqd67atsdu";
-        req.payload = {};
+        req.getToken = function(payload) {
+            return jwt.sign(payload, secret);
+        }
 
         if(token) {
             jwt.verify(token, secret, (err, decoded) => {
@@ -152,6 +156,7 @@ module.exports = function (opts = {}) {
                 next();
             });
         } else {
+            req.payload = false;
             next();
         }
     }
