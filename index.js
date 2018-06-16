@@ -1,4 +1,5 @@
 const _ = require("lodash");
+const jwt = require("jsonwebtoken");
 
 module.exports = function (opts = {}) {
 
@@ -135,7 +136,24 @@ module.exports = function (opts = {}) {
             }
         }
 
-        next();
+        /**
+         * Token decoding
+         */
+        let token = req.headers["x-auth-token"];
+        let secret = opts.secret ? opts.secret : "sirius-express-122uihh1ut67etweugqd67atsdu";
+        req.payload = {};
+
+        if(token) {
+            jwt.verify(token, secret, (err, decoded) => {
+                req.payload = {
+                    error: err,
+                    user: decoded
+                }
+                next();
+            });
+        } else {
+            next();
+        }
     }
 
 }
