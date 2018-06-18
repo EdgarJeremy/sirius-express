@@ -136,6 +136,8 @@ module.exports = function (opts = {}) {
             }
         }
 
+        next();
+
     }
 
 }
